@@ -6,8 +6,8 @@ services:
 
    appdb:
       build: 
-        context : appdb/.
-        dockerfile: Dockerfile
+        context : .
+        dockerfile: ./appdb/Dockerfile
 
       restart: always
       networks:
@@ -27,7 +27,9 @@ services:
                 - ssh_pub_key 
       restart: always
       image: dataserver:ver1
-        #entrypoint:  /usr/local/bin/dataServer
+      depends_on:
+          - appdb
+
       networks:
         vpcbr:
            ipv4_address: 10.5.0.23

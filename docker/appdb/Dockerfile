@@ -36,7 +36,16 @@ USER postgres
 #       allows the RUN command to span multiple lines.
 RUN    /etc/init.d/postgresql start &&\
     psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" &&\
-    createdb -O docker docker
+    createdb -O docker docker && \
+    export PGPASSWORD=docker && psql  -d docker  -U docker   -h 127.0.0.1 --command "CREATE TABLE  names ( \
+     	id SERIAL ,  \
+	name VARCHAR (32)  , \
+	age integer   \
+	); \
+	insert into names (name,age) values ('alice',47); \
+	insert into names (name,age) values ('bob',35); \
+	"
+
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
@@ -53,5 +62,4 @@ EXPOSE 5432
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
 # Set the default command to run when starting the container
-CMD ["/usr/lib/postgresql/12/bin/postgres", "-D", "/app/db-12", "-c", "config_file=/app/db-12/psql.conf"]
-
+CMD ["/usr/lib/postgresql/12/bin/postgres", "-D", "/var/lib/postgresql/12/main/", "-c", "config_file=/etc/postgresql/12/main/postgresql.conf"]

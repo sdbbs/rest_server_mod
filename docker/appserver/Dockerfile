@@ -44,25 +44,16 @@ RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && \
     chmod 600 /root/.ssh/id_rsa && \
     chmod 600 /root/.ssh/id_rsa.pub
 
-# Install.
-#RUN \
-#  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-#  apt-get update && \
-#  apt-get -y upgrade && \
-#  apt-get install -y build-essential && \
-#  apt-get install -y git curl wget unzip vim  autoconf libtool libssl-dev  libcurl4-openssl-dev libpq-dev 
 
 
+ADD ./project/ /project
 
-
-
-
-RUN wget https://github.com/jtv/libpqxx/archive/7.1.0.tar.gz && \
+RUN cd /root && wget https://github.com/jtv/libpqxx/archive/7.1.0.tar.gz && \
 	tar -xvzf 7.1.0.tar.gz && \
 	cd libpqxx-7.1.0 && \
 	./configure --disable-documentation && make && make install && cp /root/libpqxx-7.1.0/include/pqxx  /usr/include -rf
 
-RUN git clone https://github.com/open-source-parsers/jsoncpp.git && \
+RUN cd /root &&  git clone https://github.com/open-source-parsers/jsoncpp.git && \
 	mkdir jsoncpp-build && \
 	cd jsoncpp-build && \
 	cmake ../jsoncpp  && \
@@ -71,19 +62,14 @@ RUN git clone https://github.com/open-source-parsers/jsoncpp.git && \
 
 
 
-ADD ./project/ /project
 RUN cd /project && if [-d Debug ];then rm Debug -rf;fi && mkdir Debug && cd Debug && cmake -DCMAKE_BUILD_TYPE=Debug .. && make check_git && make restbed_install && make && cp server /usr/bin
-#RUN cd /project && mkdir Debug && cd Debug && cmake -DCMAKE_BUILD_TYPE=Debug .. && make check_git && make restbed_install && make && cp server /usr/bin
 
-RUN cp /project/dataserver.conf /etc
+RUN cp /project/appserver.conf /etc
 ENV LD_LIBRARY_PATH="/usr/local/lib/"
-#RUN cp /root/ecommerce/algotrade/algosys/Debug/dataServer/dataServer /usr/local/bin
 
-#CMD ["/usr/local/bin/dataServer"]
 
 
 
 
 # Define default command.
 CMD ["/usr/bin/server"]
-#CMD ["bash"]
