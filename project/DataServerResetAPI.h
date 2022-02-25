@@ -22,10 +22,8 @@
 #include <restbed>
 #include <thread>
 #include <vector>
-#include "common/IRestServer.h"
+#include "IRestServer.h"
 #include "DBConnectionParams.h"
-#include "common/log4algo.h"
-#include "config_vars.h"
 
 #include "data_server_db.h"
 
@@ -36,17 +34,9 @@ class DataRestServer: public IRestServer {
 	
 	
 	private:
-		void get_broker_info_handler( const std::shared_ptr< restbed::Session > session );
+		void gethandler_getNames( const std::shared_ptr< restbed::Session > session );
 
-		void gethandler_getAccountList( const std::shared_ptr< restbed::Session > session );
-		void gethandler_getAccountInfo( const std::shared_ptr< restbed::Session > session );
-		
-		void gethandler_getExtractContractsData( const std::shared_ptr< restbed::Session > session ) ;
-		void gethandler_getRegisteredSymbols( const std::shared_ptr< restbed::Session > session );
-		void gethandler_syncSystemTables( const std::shared_ptr< restbed::Session > session );
-		void gethandler_getLastUpdateTime( const std::shared_ptr< restbed::Session > session );
-		void gethandler_getOpenTrades( const std::shared_ptr< restbed::Session > session );
-		void posthandler_AddTrade( const std::shared_ptr< restbed::Session > session );
+
 		void posthandler_postAddTickData( const std::shared_ptr< restbed::Session > session );
 		
 		void service_ready_handler( Service& ) override;

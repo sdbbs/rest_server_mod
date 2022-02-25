@@ -20,19 +20,24 @@ services:
 
    appserver:
       build: 
-        context : appserver/.
-        dockerfile: Dockerfile
+        context : ..
+        dockerfile: docker/appserver/Dockerfile
         args:
                 - ssh_prv_key 
                 - ssh_pub_key 
       restart: always
       image: dataserver:ver1
-      entrypoint:  /usr/local/bin/dataServer
+        #entrypoint:  /usr/local/bin/dataServer
       networks:
         vpcbr:
            ipv4_address: 10.5.0.23
       ports:
         - "51984:1984"
+      volumes:
+             - ../project:/project
+   
+
+          
                
       
    

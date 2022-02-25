@@ -16,7 +16,6 @@
  * =====================================================================================
  */
 #include "IRestServer.h"
-#include "common/log4algo.h"
 #include <iostream>
 #include <memory>
 using namespace std;
@@ -30,7 +29,6 @@ void IRestServer::get_handler_callback( std::shared_ptr< Session > session ,  st
 	const auto& request = session->get_request( );
 
 
-	log4algo_to_udp (LOG_INFO,"REST API call:getFxcmLoginPrm" );
 
 
 	Json::Value root;

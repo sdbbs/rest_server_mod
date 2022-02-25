@@ -17,7 +17,7 @@
  */
 #ifndef DBCONNECTION_H
 #define DBCONNECTION_H 
-#include "common/cpptoml.h"
+#include "cpptoml.h"
 #include <iostream>
 #include "dbmanage.h"
 #include <memory>
