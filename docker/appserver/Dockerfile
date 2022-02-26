@@ -65,7 +65,7 @@ RUN cd /root &&  git clone https://github.com/open-source-parsers/jsoncpp.git &&
 RUN cd /project && if [-d Debug ];then rm Debug -rf;fi && mkdir Debug && cd Debug && cmake -DCMAKE_BUILD_TYPE=Debug .. && make check_git && make restbed_install && make && cp server /usr/bin
 
 RUN cp /project/appserver.conf /etc
-ENV LD_LIBRARY_PATH="/usr/local/lib/"
+ENV LD_LIBRARY_PATH="/usr/local/lib"
 
 
 
@@ -73,3 +73,7 @@ ENV LD_LIBRARY_PATH="/usr/local/lib/"
 
 # Define default command.
 CMD ["/usr/bin/server"]
+RUN cp /project/3rd_part/restbed/Debug/library/* /usr/local/lib
+#ENV LD_LIBRARY_PATH="/project/3rd_part/restbed/Debug/library/"
+
+#CMD["/bin/bash"]

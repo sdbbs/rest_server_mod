@@ -115,16 +115,21 @@ void DataRestServer::gethandler_getNames( const shared_ptr< Session > session )
 {
 
 	auto func = [this](shared_ptr< restbed::Session > session) ->Json::Value {
+		Json::Value root;
 		const auto& request = session->get_request( );
-		std::string acountID = request->get_query_parameter("id");
 		auto data_server =  create_db_instance();				
-		auto root = data_server.names(std::stoi(acountID));
+		
+		std::string age = request->get_query_parameter("age");
+		if (age == "") 
+			 root = data_server.names(-1);
+		else
+			 root = data_server.names(std::stoi(age));
 		return root;
 
 	};
 
 	// validate "id" parameter
-	get_handler_callback(session ,  func, {"id"});
+	get_handler_callback(session ,  func);
 }
 
 
