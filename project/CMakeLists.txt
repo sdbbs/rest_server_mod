@@ -1,5 +1,6 @@
 
-cmake_minimum_required(VERSION 3.16)
+#cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.14)
 
 
 set (3rd_part  "3rd_part")
@@ -18,7 +19,7 @@ set_target_properties(restbed PROPERTIES
         "INTERFACE_LINK_LIBRARIES" "${CMAKE_SOURCE_DIR}/${3rd_part}/restbed/${CMAKE_BUILD_TYPE}/library"
 )
 
-find_package(restbed 
+find_package(restbed
 	PATHS
 	"${CMAKE_SOURCE_DIR}/${3rd_part}/restbed/${CMAKE_BUILD_TYPE}/usr/share"
 	)
@@ -38,7 +39,7 @@ if(NOT restbed_FOUND)
 		)
 
 else()
-	add_custom_target(restbed_install ALL    )	
+	add_custom_target(restbed_install ALL    )
 	add_custom_command(TARGET   restbed_install
 		COMMAND cp ${CMAKE_SOURCE_DIR}/cmake/restbed-config.cmake ${CMAKE_SOURCE_DIR}/${3rd_part}/restbed/${CMAKE_BUILD_TYPE}/usr/share
 
@@ -49,55 +50,46 @@ endif()
 project(appserver)
 SET(CMAKE_CONFIGURATION_TYPES "Debug;Release;MinSizeRel;RelWithDebInfo" CACHE STRING "" FORCE)
 
-
-
-
-
-
-
-
 set (server_SRC
-	IRestServer.cpp
-	DataServerResetAPI.cpp 
-	dbmanage.cpp
-	data_server_db.cpp
-	DBConnectionParams.cpp
+	#IRestServer.cpp
+	#DataServerResetAPI.cpp
+	#dbmanage.cpp
+	#data_server_db.cpp
+	#DBConnectionParams.cpp
 	main.cpp
 	)
 set (server_H
-	DataServerResetAPI.h 
+	DataServerResetAPI.h
 	dbmanage.h
 	data_server_db.h
 	DBConnectionParams.h
 	IRestServer.h
 	)
 
-
-
-
-
-add_executable(server 
+add_executable(server
 	${server_SRC}
-	${server_H}
+#	${server_H}
 	)
 
-add_dependencies(server  
+add_compile_definitions(_GLIBCXX_USE_CXX11_ABI=0)
+
+add_dependencies(server
 	restbed
 	 )
 target_link_libraries(server PRIVATE
-	-Wl,--start-group  	
-        ${CMAKE_SOURCE_DIR}/${3rd_part}/restbed/${CMAKE_BUILD_TYPE}/library/librestbed.so.4.7
+	-Wl,--start-group
+  #${CMAKE_SOURCE_DIR}/${3rd_part}/restbed/${CMAKE_BUILD_TYPE}/library/librestbed.so.4.7
 	pthread
-	jsoncpp 
+	jsoncpp
 	curl
-	#restbed
-	pqxx 
-	pq
+	restbed
+#	pqxx
+#	pq
 	-Wl,--end-group
 	)
 
 target_include_directories(server PUBLIC
-	${PROJECT_BINARY_DIR}/	
+	${PROJECT_BINARY_DIR}/
 	${CMAKE_SOURCE_DIR}
 	${CMAKE_SOURCE_DIR}/${3rd_part}/restbed/${CMAKE_BUILD_TYPE}/include/
 	)

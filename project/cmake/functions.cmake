@@ -1,5 +1,6 @@
 # cmake -G "Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_ECLIPSE_MAKE_ARGUMENTS=-j8 ..
-cmake_minimum_required (VERSION 3.16)
+#cmake_minimum_required (VERSION 3.16)
+cmake_minimum_required (VERSION 3.14)
 
 # create version file (work only in the linux version)
 # add_custom_command does not create a new target. You have to define targets explicitly
